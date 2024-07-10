@@ -1,0 +1,15 @@
+name: needs reproduction
+description: This action adds a comment on an issue asking for reproduction after the issue is labeled as "needs reproduction" 
+author: Tomek Sułkowski
+branding:
+  icon: 'message-square'
+  color: 'white'
+if: github.event.label.name == 'needs reproduction'
+uses: actions-cool/issues-helper@v3
+with:
+  actions: "create-comment, remove-labels"
+  token: ${{ secrets.GITHUB_TOKEN }}
+  issue-number: ${{ github.event.issue.number }}
+  body: |
+    Hello @${{ github.event.issue.user.login }}. Please provide a [minimal reproduction](https://stackoverflow.com/help/minimal-reproducible-example) using a GitHub repository or [StackBlitz](https://vite.new). Issues marked with `needs reproduction` will be closed if they have no activity within 3 days.
+  labels: "pending triage"
